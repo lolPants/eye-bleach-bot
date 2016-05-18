@@ -1,4 +1,7 @@
 # Eyebleach Bot (eye-bleach-bot)
+
+![Build](https://api.travis-ci.org/lolPants/eye-bleach-bot.svg?branch=dev)
+
 ---
 ## About
 A bot which crawls Reddit ([/r/aww](https://www.reddit.com/r/aww/)) for cute pictures, and posts them to Twitter ([@EyeBleachBot](https://twitter.com/eyebleachbot))
