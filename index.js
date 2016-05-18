@@ -4,4 +4,4 @@ var conf = require('./config');
 
 //console.log(func_r.getData(conf.subreddit, 100));
 
-func_t.getImage("http://i.imgur.com/97t2NVH.png");
+func_t.postTweet("http://i.imgur.com/97t2NVH.png");
