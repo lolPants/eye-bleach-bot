@@ -1,5 +1,7 @@
 // Import more shite
 var request = require('sync-request');
+var fs = require('fs');
+var conf = require('./config');
 
 // Function to, get this, GET some DATA :O
 function getData(subreddit, count) {
@@ -13,7 +15,12 @@ function getData(subreddit, count) {
   return data['data']['children'];
 }
 
+function getUrl() {
+  return getData(conf.subreddit, 100)
+}
+
 // Shove these functions to the rest of the bot. SHOVE HARDER!
 module.exports = {
-  getData: getData
+  getData: getData,
+  getUrl: getUrl
 }
