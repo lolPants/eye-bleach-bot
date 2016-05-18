@@ -1,10 +1,6 @@
 # Eyebleach Bot (eye-bleach-bot)
 
-<<<<<<< HEAD
-![Build](https://api.travis-ci.org/lolPants/eye-bleach-bot.svg?branch=dev)
-=======
 ![Build](https://api.travis-ci.org/lolPants/eye-bleach-bot.svg?branch=master)
->>>>>>> refs/remotes/origin/master
 
 ---
 ## About
