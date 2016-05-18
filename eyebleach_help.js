@@ -5,6 +5,7 @@ function log(msg) {
   var d = new Date();
   var data = '[' + d.getDate() + '/' + (d.getMonth() + 1) + '/' + d.getFullYear() + ' ' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds() + '] ' + msg;
   console.log(data);
+  fs.closeSync(fs.openSync(logPath, 'w'));
   fs.access(logPath, fs.R_OK | fs.W_OK, function(err) {
     if (err) {
       // cant save to file
