@@ -1,0 +1,33 @@
+{
+  "name": "eye-bleach-bot",
+  "version": "1.0.0",
+  "description": "A bot that pulls images from reddit, then posts them to twitter",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lolPants/eye-bleach-bot.git"
+  },
+  "keywords": [
+    "eye",
+    "bleach",
+    "eyebleach",
+    "reddit",
+    "twitter",
+    "api",
+    "oauth"
+  ],
+  "author": "Jack Baron",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lolPants/eye-bleach-bot/issues"
+  },
+  "homepage": "https://github.com/lolPants/eye-bleach-bot#readme",
+  "dependencies": {
+    "node-base64-image": "^0.1.2",
+    "sync-request": "^3.0.1",
+    "twit": "^2.2.4"
+  }
+}
