@@ -1,7 +1,6 @@
 // Import more shite
 var request = require('sync-request');
 var fs = require('fs');
-var conf = require('./config');
 
 // Function to, get this, GET some DATA :O
 function getData(subreddit, count) {
@@ -20,10 +19,10 @@ function checkURL(url) {
     return(url.match(/\.(jpeg|jpg|gif|png)$/) != null);
 }
 
-function getUrl() {
+function getUrl(subreddit) {
   i = 0;
   posts = [];
-  getData(conf.subreddit, 100).forEach(function(element) {
+  getData(subreddit, 100).forEach(function(element) {
     if (checkURL(element['data']['url'])) {
       posts.push([element['data']['author'], element['data']['url']]);
     }
