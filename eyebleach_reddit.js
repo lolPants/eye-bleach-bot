@@ -15,8 +15,21 @@ function getData(subreddit, count) {
   return data['data']['children'];
 }
 
+// See if the URL pulled is an image.
+function checkURL(url) {
+    return(url.match(/\.(jpeg|jpg|gif|png)$/) != null);
+}
+
 function getUrl() {
-  return getData(conf.subreddit, 100)
+  i = 0;
+  posts = [];
+  getData(conf.subreddit, 100).forEach(function(element) {
+    if (checkURL(element['data']['url'])) {
+      posts.push([element['data']['author'], element['data']['url']]);
+    }
+    i++;
+  }, this);
+  return posts[Math.floor(Math.random()*posts.length)];
 }
 
 // Shove these functions to the rest of the bot. SHOVE HARDER!

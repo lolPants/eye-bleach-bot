@@ -1,7 +1,18 @@
 var func_r = require('./eyebleach_reddit');
 var func_t = require('./eyebleach_twitter');
 
-// LINE FOR TESTING REASONS SHUTUP
-//func_t.postTweet("http://i.imgur.com/97t2NVH.png", "lolzPants");
+function postEyeBleach() {
+  func_t.postTweet(func_r.getUrl()[1], func_r.getUrl()[0]);
+  console.log("Eyebleach Posted");
+}
 
-console.log(func_r.getUrl());
+// Run to start
+postEyeBleach()
+// Run Every Hour
+setInterval(function() {
+  try {
+    postEyeBleach()
+  } catch (e) {
+    log(e);
+  }
+}, 60000 * 60);
