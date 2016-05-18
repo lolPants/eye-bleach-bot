@@ -24,4 +24,8 @@ module.exports = {
 ## Credits
 Jack Baron - Author
 
+ttezel - [twit](https://github.com/ttezel/twit)
+
 ForbesLindesay - [sync-request](https://github.com/ForbesLindesay/sync-request)
+
+riyadhalnur - [node-base64-image](https://github.com/riyadhalnur/node-base64-image)
