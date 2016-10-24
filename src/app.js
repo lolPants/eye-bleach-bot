@@ -10,6 +10,8 @@
 const config = require('../config.js')
 
 // Dependencies
+const FancyLog = require('fancylog')
+const log = new FancyLog()
 const EyeBleach = require('./api.js')
 const eyebleach = new EyeBleach(config)
 
@@ -17,7 +19,14 @@ let postEyeBleach = function () {
   eyebleach.getImage('aww', 'top')
     .then(url => {
       url = url[0]
-      console.log(url)
+      
+      eyebleach.postImage(url)
+        .then(() => {
+          log.i('EyeBleach Posted')
+        })
+        .catch(err => {
+          log.e('Error Posting Eyebleach')
+        })
     })
     .catch(err => {
       console.log(err)
