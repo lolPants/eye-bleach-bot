@@ -6,26 +6,14 @@
   Tests Module
 */
 
-// Config
-const config = require('../config.js')
-
 // Dependencies
 const EyeBleach = require('../src/api.js')
-const eyebleach = new EyeBleach(config)
+const eyebleach = new EyeBleach(require('../config.js') || {})
 
 // Test Getting of Image
 eyebleach.getImage('aww', 'top')
   .then(url => {
     console.log(url)
-  })
-  .catch(err => {
-    console.log(err)
-    process.exit(1)
-  })
-
-eyebleach.postImage('https://i.redd.it/v0n0mjazw7tx.jpg')
-  .then(img => {
-    console.log(img)
   })
   .catch(err => {
     console.log(err)

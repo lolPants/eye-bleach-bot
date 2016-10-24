@@ -50,6 +50,19 @@ let postToTwitter = function (config, image) {
     if (image === undefined) reject(new Error('Undefined Config'))
 
     let T = new twit(config)
+
+    T.post('media/upload', { media_data: image }, function (err, data, response) {
+      let mediaIdStr = data.media_id_string
+      let params = { status: "", media_ids: [mediaIdStr] }
+
+      T.post('statuses/update', params, function (err, data, response) {
+        if (err) {
+          reject(err)
+        } else {
+          resolve()
+        }
+      })
+    })
   })
 }
 EyeBleach.prototype.postImage = function (url) {
@@ -60,7 +73,9 @@ EyeBleach.prototype.postImage = function (url) {
       if (err) {
         reject(err)
       } else {
-        resolve(res)
+        postToTwitter(config, res)
+          .then(resolve)
+          .catch(reject)
       }
     })
   })
