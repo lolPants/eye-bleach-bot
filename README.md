@@ -9,5 +9,5 @@ A bot which crawls Reddit ([/r/aww](https://www.reddit.com/r/aww/)) for cute pic
 ## Credits
 Jack Baron - Author  
 ttezel - [twit](https://github.com/ttezel/twit)  
-ForbesLindesay - [sync-request](https://github.com/ForbesLindesay/sync-request)  
+Request Team - [request](https://github.com/request/request)  
 riyadhalnur - [node-base64-image](https://github.com/riyadhalnur/node-base64-image)  
