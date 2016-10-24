@@ -35,3 +35,10 @@ let postEyeBleach = function () {
 }
 
 postEyeBleach()
+setInterval(function() {
+  try {
+    postEyeBleach()
+  } catch (e) {
+    log.e(e);
+  }
+}, 60 * 60 * 1000);
