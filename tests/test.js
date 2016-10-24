@@ -7,11 +7,10 @@
 */
 
 // Config
+let config = {}
 try  {
-  const config = require('../config.js')
-} catch (ex) {
-  const config = {}
-}
+  config = require('../config.js')
+} catch (ex) { }
 
 // Dependencies
 const EyeBleach = require('../src/api.js')
