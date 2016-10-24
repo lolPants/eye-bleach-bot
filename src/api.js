@@ -8,13 +8,17 @@
 
 // Dependencies
 const request = require('request')
+const twit = require('twit')
+const b64 = require('node-base64-image')
 
 // Helper Functions
 let shuffleObj = function(n){for(var r=Object.keys(n).map(function(r){return n[r]}),t=0;t<r.length-1;t++){var e=t+Math.floor(Math.random()*(r.length-t)),a=r[e];r[e]=r[t],r[t]=a}return r}
 
-
 // Define Class
-let EyeBleach = function () {}
+let EyeBleach = function (conf) {
+  if (conf === undefined) throw new Error('Undefined Config')
+  this.config = conf
+}
 
 // Reddit Function
 let getFromReddit = function (subreddit, level) {
@@ -34,6 +38,29 @@ let getFromReddit = function (subreddit, level) {
         }
       } else {
         reject()
+      }
+    })
+  })
+}
+
+let postToTwitter = function (config, image) {
+  return new Promise(function (resolve, reject) {
+    // Handle undefined args
+    if (config === undefined) reject(new Error('Undefined Config'))
+    if (image === undefined) reject(new Error('Undefined Config'))
+
+    let T = new twit(config)
+  })
+}
+EyeBleach.prototype.postImage = function (url) {
+  let config = this.config
+  
+  return new Promise(function (resolve, reject) {
+    b64.encode(url, {string: true}, (err, res) => {
+      if (err) {
+        reject(err)
+      } else {
+        resolve(res)
       }
     })
   })
