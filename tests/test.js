@@ -6,20 +6,16 @@
   Tests Module
 */
 
-// Config
-let config = {}
-try  {
-  config = require('../config.js')
-} catch (ex) { }
+const config = require('../config.js')
 
 // Dependencies
 const EyeBleach = require('../src/api.js')
-const eyebleach = new EyeBleach(config)
+const eyebleach = new EyeBleach()
 
 // Test Getting of Image
-eyebleach.getImage('aww', 'top')
-  .then(url => {
-    console.log(url)
+eyebleach.getBuffer()
+  .then(body => {
+    console.log(body)
   })
   .catch(err => {
     console.log(err)

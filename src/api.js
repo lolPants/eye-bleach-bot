@@ -7,94 +7,98 @@
 */
 
 // Dependencies
-const request = require('request')
-const twit = require('twit')
+const request = require('superagent')
 const b64 = require('node-base64-image')
 
-// Helper Functions
-let shuffleObj = function(n){for(var r=Object.keys(n).map(function(r){return n[r]}),t=0;t<r.length-1;t++){var e=t+Math.floor(Math.random()*(r.length-t)),a=r[e];r[e]=r[t],r[t]=a}return r}
-
-// Define Class
-let EyeBleach = function (conf) {
-  if (conf === undefined) throw new Error('Undefined Config')
-  this.config = conf
-}
-
-// Reddit Function
-let getFromReddit = function (subreddit, level) {
-  return new Promise(function (resolve, reject) {
-    request(`https://www.reddit.com/r/${subreddit}/${level}.json?limit=100`, function (error, response, body) {
-      
-      if (!error && response.statusCode === 200) {
-        let data = shuffleObj(JSON.parse(body).data.children)
-
-        let arr = []        
-        for (obj in data) {
-          let item = data[obj].data
-          if ( item.url.match(/\.(jpeg|jpg|gif|png)$/) != null ) {
-            arr.push(item.url)
-          }
-          resolve(arr)
-        }
-      } else {
-        reject()
-      }
+class EyeBleach {
+  /**
+   * Get from Reddit
+   * @private
+   * @param {string} [subreddit] - Subreddit to Crawl
+   * @param {string} [level] - Top / New / Hot etc
+   * @returns {Promise.<Object>}
+   * @throws {Promise.<Error>}
+   */
+  _getFromReddit (subreddit = `aww`, level = `top`) {
+    return new Promise((resolve, reject) => {
+      request
+        .get(`https://www.reddit.com/r/${subreddit}/${level}.json?limit=100`)
+        .set(`Accept`, `application/json`)
+        .end((err, res) => {
+          if (err) reject(err)
+          else if (res.status !== 200) reject(res.status)
+          else resolve(res.body)
+        })
     })
-  })
-}
+  }
 
-let postToTwitter = function (config, image) {
-  return new Promise(function (resolve, reject) {
-    // Handle undefined args
-    if (config === undefined) reject(new Error('Undefined Config'))
-    if (image === undefined) reject(new Error('Undefined Config'))
+  /**
+   * Parse Reddit Response
+   * @private
+   * @param {Object} body - Response from GetFromReddit
+   * @returns {Promise.<Array>}
+   * @throws {Promise.<Error>}
+   */
+  _parseReddit (body) {
+    return new Promise((resolve, reject) => {
+      if (!body) reject(new Error(`Body not specified`))
+      let json = body.data.children
+      json = json.map(obj => obj.data.url)
+      json = json.filter(url => url.match(/\.(jpeg|jpg|gif|png)$/))
+      resolve(json)
+    })
+  }
 
-    let T = new twit(config)
+  /**
+   * Get Random element from an Array
+   * @private
+   * @param {Array} arr - Input Array
+   * @returns {Promise}
+   * @throws {Promise.<Error>}
+   */
+  _randFromArray (arr) {
+    return new Promise((resolve, reject) => {
+      if (!arr) reject(new Error(`Array not specified`))
+      resolve(arr[Math.floor(Math.random() * arr.length)])
+    })
+  }
 
-    T.post('media/upload', { media_data: image }, function (err, data, response) {
-      let mediaIdStr = data.media_id_string
-      let params = { status: "", media_ids: [mediaIdStr] }
-
-      T.post('statuses/update', params, function (err, data, response) {
-        if (err) {
-          reject(err)
-        } else {
-          resolve()
-        }
+  /**
+   * Gets a Buffer Object from an image URL
+   * @private
+   * @param {string} url - Image URL
+   * @returns {Promise.<Buffer>}
+   * @throws {Promise.<Error>}
+   */
+  _urlToBuffer (url) {
+    return new Promise((resolve, reject) => {
+      if (!url) reject(new Error(`URL not specified`))
+      b64.encode(url, {}, (err, res) => {
+        if (err) reject(err)
+        else resolve(res)
       })
     })
-  })
-}
-EyeBleach.prototype.postImage = function (url) {
-  let config = this.config
-  
-  return new Promise(function (resolve, reject) {
-    b64.encode(url, {string: true}, (err, res) => {
-      if (err) {
-        reject(err)
-      } else {
-        postToTwitter(config, res)
-          .then(resolve)
-          .catch(reject)
-      }
-    })
-  })
-}
+  }
 
-// Get Image from Reddit
-EyeBleach.prototype.getImage = function (subreddit, level, times = 1) {
-  return new Promise(function (resolve, reject) {
-    let array = getFromReddit(subreddit, level)
-    array.then(arr => {
-      let returns = []
-      times = times - 1
-
-      for (let i = arr.length; i >= 0; i--) {
-        if (i > times) arr.splice(i, 1)
-      }
-      resolve(arr)
+  /**
+   * Get random Eyebleach Image Buffer
+   * @private
+   * @param {string} [subreddit] - Subreddit to Crawl
+   * @param {string} [level] - Top / New / Hot etc
+   * @returns {Promise.<Buffer>}
+   * @throws {Promise.<Error>}
+   */
+  getBuffer (subreddit = `aww`, level = `top`) {
+    return new Promise((resolve, reject) => {
+      this._getFromReddit(subreddit, level)
+        .then(this._parseReddit)
+        .then(this._randFromArray)
+        .then(this._urlToBuffer)
+        .then(this._tweetMedia)
+        .then(resolve)
+        .catch(reject)
     })
-  })
+  }
 }
 
 // Export Class

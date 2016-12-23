@@ -1,10 +1,10 @@
 {
   "name": "eye-bleach-bot",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "A bot that pulls images from reddit, then posts them to twitter",
-  "main": "main.js",
+  "main": "src/",
   "scripts": {
-    "test": "node tests/test.js"
+    "test": "gulp"
   },
   "repository": {
     "type": "git",
@@ -26,9 +26,15 @@
   },
   "homepage": "https://github.com/lolPants/eye-bleach-bot#readme",
   "dependencies": {
-    "fancylog": "^2.2.4",
-    "node-base64-image": "^1.0.1",
-    "request": "^2.75.0",
+    "fancylog": "^2.3.0",
+    "node-base64-image": "^1.0.3",
+    "superagent": "^3.3.1",
     "twit": "^2.2.5"
+  },
+  "devDependencies": {
+    "eslint": "^3.12.2",
+    "gulp": "gulpjs/gulp#4.0",
+    "gulp-eslint": "^3.0.1",
+    "gulp-exec": "^2.1.3"
   }
 }
